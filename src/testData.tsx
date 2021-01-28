@@ -1,4 +1,4 @@
-export const data = {
+export const realDiscoveryData = {
   "sections": [
     {
       "title": "Popular Restaurants",
@@ -249,50 +249,54 @@ export const data = {
   ]
 };
 
-// const title: string = "New Restaurants";
-// const items1: Item[] = [
-//   {
-//     blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-//     launch_date: "",
-//     location: [],
-//     name: "0",
-//     online: false,
-//     popularity: 0,
-//   }, {
-//     blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-//     launch_date: "",
-//     location: [],
-//     name: "1",
-//     online: false,
-//     popularity: 0,
-//   }, {
-//     blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-//     launch_date: "",
-//     location: [],
-//     name: "2",
-//     online: false,
-//     popularity: 0,
-//   }, {
-//     blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-//     launch_date: "",
-//     location: [],
-//     name: "3",
-//     online: false,
-//     popularity: 0,
-//   }, {
-//     blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+export const testDiscoveryData = {
+  sections: [{
+    title: 'New Restaurants',
+    restaurants: [
+      {
+        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        launch_date: "",
+        location: [],
+        name: "0",
+        online: false,
+        popularity: 0,
+      }, {
+        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        launch_date: "",
+        location: [],
+        name: "1",
+        online: false,
+        popularity: 0,
+      }, {
+        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        launch_date: "",
+        location: [],
+        name: "2",
+        online: false,
+        popularity: 0,
+      }, {
+        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        launch_date: "",
+        location: [],
+        name: "3",
+        online: false,
+        popularity: 0,
+      }, {
+        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
 
-//     launch_date: "",
-//     location: [],
-//     name: "4",
-//     online: false,
-//     popularity: 0,
-//   }, {
-//     blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-//     launch_date: "",
-//     location: [],
-//     name: "5",
-//     online: false,
-//     popularity: 0,
-//   },
-// ];
+        launch_date: "",
+        location: [],
+        name: "4",
+        online: false,
+        popularity: 0,
+      }, {
+        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        launch_date: "",
+        location: [],
+        name: "5",
+        online: false,
+        popularity: 0,
+      },
+    ]
+  }]
+};

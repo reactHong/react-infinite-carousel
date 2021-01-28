@@ -1,17 +1,19 @@
 import React from 'react';
 import Carousel from './Carousel';
 import { Item } from './CarouselCard';
-import { data } from '../testData';
 
-type Section = {
+export type DiscoveryProps = {
+  sections: Section[];
+};
+
+export type Section = {
   title: string;
   restaurants: Item[];
 };
 
-function Discovery() {
+function Discovery({ sections }: DiscoveryProps) {
 
   const MAX_NUM = 5;
-  const sections: Section[] = data.sections;
   const continuousClick = [true, false, false];
 
   return (
