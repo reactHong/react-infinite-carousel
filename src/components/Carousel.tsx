@@ -106,7 +106,8 @@ function Carousel({ title, propsItems, maxCarouselCardNum }: CarouselProps) {
       newDirection = "none";
 
       setTimeout(() => {
-        console.log("Restart animation!!!");
+        const state = stateRef.current;
+        console.log("Restart animation!!! state:", state);
         setState({
           ...state,
           translateX: 0,
