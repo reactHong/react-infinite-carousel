@@ -9,21 +9,21 @@ type DiscoveryData = {
 
 function App() {
 
-  // const [discoveryData, setDiscoveryData] = useState<DiscoveryData>({
-  //   sections: [],
-  // });
-  const [discoveryData, setDiscoveryData] = useState<DiscoveryData>(realDiscoveryData);
+  const [discoveryData, setDiscoveryData] = useState<DiscoveryData>({
+    sections: [],
+  });
+  // const [discoveryData, setDiscoveryData] = useState<DiscoveryData>(realDiscoveryData);
 
   useEffect(() => {
-    // fetch("./discovery_page.json")
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     console.log("[App.componentDidMount] data:", data);
-    //     setDiscoveryData(data);
-    //   })
-    //   .catch(err => {
-    //     console.log("[App.componentDidMount] Error:", err);
-    //   });
+    fetch("./discovery_page.json")
+      .then(response => response.json())
+      .then(data => {
+        console.log("[App.componentDidMount] data:", data);
+        setDiscoveryData(data);
+      })
+      .catch(err => {
+        console.log("[App.componentDidMount] Error:", err);
+      });
 
   }, []);
 
