@@ -1,40 +1,31 @@
 import React from 'react';
 import Carousel from './Carousel';
 import { Item } from './CarouselCard';
+import { data } from '../testData';
 
-const title: string = "New Restaurants";
-const items1: Item[] = [
-  {
-    blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-    name: "0",
-    online: true,
-  }, {
-    blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-    name: "1",
-    online: true,
-  }, {
-    blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-    name: "2",
-    online: true,
-  }, {
-    blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-    name: "3",
-    online: true,
-  }, {
-    blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-    name: "4",
-    online: true,
-  }, {
-    blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-    name: "5",
-    online: true,
-  },
-];
+type Section = {
+  title: string;
+  restaurants: Item[];
+};
 
 function Discovery() {
+
+  const MAX_NUM = 5;
+  const sections: Section[] = data.sections;
+
   return (
     <div className="discoveryWrapper">
-      <Carousel title={title} propsItems={items1} maxCarouselCardNum={5} />
+      {
+        sections.map((section: Section) => {
+          const maxCarouselCardNum = section.restaurants.length > MAX_NUM
+            ? MAX_NUM : section.restaurants.length;
+          return <Carousel
+            title={section.title}
+            propsItems={section.restaurants}
+            maxCarouselCardNum={maxCarouselCardNum} />
+        })
+      }
+
     </div>
   );
 }

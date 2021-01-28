@@ -11,7 +11,7 @@ body {
 
 /* Header */
 .headerContainer {
-  background-color: yellow;
+  /* background-color: yellow; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -23,7 +23,7 @@ body {
 
 /* Carousel */
 .trackContainer {
-  background-color: red;
+  /* background-color: red; */
   overflow: hidden;
 }
 .cardTrack {
@@ -32,7 +32,7 @@ body {
 }
 /* Card */
 .card {
-  background-color: yellowgreen;
+  /* background-color: yellowgreen; */
 }
 .card a {
   display: block;

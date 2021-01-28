@@ -28,8 +28,11 @@ type CarouselRange = {
 //TODO: EMPTY_ITEM can be changed to copiedItem except the real image URL
 const EMPTY_ITEM: Item = {
   blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-  online: false,
+  launch_date: "",
+  location: [],
   name: "emptyCard",
+  online: false,
+  popularity: 0,
 };
 
 const reloadCardInfo = (carouselWidth: number, maxCarouselCardNum: number): CardInfo => {

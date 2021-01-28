@@ -3,8 +3,11 @@ import { Blurhash } from 'react-blurhash';
 
 export type Item = {
   blurhash: string;
-  online: boolean;
+  launch_date: string;
+  location: number[];
   name: string | "emptyCard";
+  online: boolean;
+  popularity: number;
 };
 
 export type CardInfo = {
