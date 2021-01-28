@@ -47,7 +47,7 @@ body {
   height: 100%;
 }
 .card .top>.online {
-  background-color: bisque;
+  /* background-color: bisque; */
 }
 .card .top>.online {
   display: flex;

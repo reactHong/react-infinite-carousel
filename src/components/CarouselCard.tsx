@@ -1,4 +1,5 @@
 import React from 'react';
+import { Blurhash } from 'react-blurhash';
 
 export type Item = {
   blurhash: string;
@@ -36,11 +37,11 @@ function CarouselCard({ cardInfo, item }: CarouselCardProps) {
     <div className="card" style={cardStyle}>
       <div className="top" style={topStyle}>
         <div className="imageContainer">
-          {/* <Blurhash
+          <Blurhash
             hash={item.blurhash}
             width={'100%'}
             height={'100%'}
-          /> */}
+          />
         </div>
         <div className="online">
           <div>{item.online ? "online" : "offline"}</div>
