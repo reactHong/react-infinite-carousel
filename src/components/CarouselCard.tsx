@@ -3,7 +3,7 @@ import React from 'react';
 export type Item = {
   blurhash: string;
   online: boolean;
-  name: string;
+  name: string | "emptyCard";
 };
 
 export type CardInfo = {
