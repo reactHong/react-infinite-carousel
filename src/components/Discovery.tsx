@@ -12,17 +12,21 @@ function Discovery() {
 
   const MAX_NUM = 5;
   const sections: Section[] = data.sections;
+  const continuousClick = [true, false, false];
 
   return (
     <div className="discoveryWrapper">
       {
-        sections.map((section: Section) => {
+        sections.map((section: Section, index: number) => {
           const maxCarouselCardNum = section.restaurants.length > MAX_NUM
-            ? MAX_NUM : section.restaurants.length;
+            ? MAX_NUM : section.restaurants.length - 1;
           return <Carousel
+            key={index}
             title={section.title}
             propsItems={section.restaurants}
-            maxCarouselCardNum={maxCarouselCardNum} />
+            maxCarouselCardNum={maxCarouselCardNum}
+            enableContinuousClick={continuousClick[index]}
+          />
         })
       }
 

@@ -8,6 +8,7 @@ type CarouselProps = {
   title: string;
   propsItems: Item[];
   maxCarouselCardNum: number;
+  enableContinuousClick: boolean;
 };
 
 type CarouselState = {
@@ -63,12 +64,19 @@ const isNextCardEmpty = (rangeLast: number, itemsLength: number) => {
   return false;
 }
 
-function Carousel({ title, propsItems, maxCarouselCardNum }: CarouselProps) {
+function Carousel({
+  title,
+  propsItems,
+  maxCarouselCardNum,
+  enableContinuousClick
+}: CarouselProps) {
+
   const handlePrevClick = () => {
     console.log("[Carousel.prev]");
     console.log(state.direction);
 
-    if (state.direction === "next") return;
+    if (enableContinuousClick && state.direction === "next") return;
+    if (!enableContinuousClick && state.direction !== "none") return;
 
     const items: Item[] = [...state.items];
     const carouselRange: CarouselRange = { ...state.carouselRange };
@@ -113,7 +121,7 @@ function Carousel({ title, propsItems, maxCarouselCardNum }: CarouselProps) {
           translateX: 0,
           direction: "prev"
         });
-      }, 50);
+      }, 20);
 
     } else {
       console.log("isPrevCardEmpty:", false);
@@ -141,7 +149,8 @@ function Carousel({ title, propsItems, maxCarouselCardNum }: CarouselProps) {
     console.log("[Carousel.next]");
     console.log(state.direction);
 
-    if (state.direction === "prev") return;
+    if (enableContinuousClick && state.direction === "prev") return;
+    if (!enableContinuousClick && state.direction !== "none") return;
 
     const items: Item[] = [...state.items];
     const carouselRange: CarouselRange = { ...state.carouselRange };
