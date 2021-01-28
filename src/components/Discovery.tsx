@@ -33,7 +33,9 @@ const items1: Item[] = [
 
 function Discovery() {
   return (
-    <Carousel title={title} items={items1} />
+    <div className="discoveryWrapper">
+      <Carousel title={title} items={items1} maxCarouselCardNum={5} />
+    </div>
   );
 }
 

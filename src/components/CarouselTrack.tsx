@@ -2,13 +2,14 @@ import React from 'react';
 import CarouselCard, { Item, CardInfo } from './CarouselCard';
 
 type CarouselTrackProps = {
-  cardInfo: CardInfo;
+  trackContainerRef: React.RefObject<HTMLDivElement>;
+  cardInfo: CardInfo | null;
   items: Item[];
   // translateX: number;
   // direction: 'prev' | 'next' | 'none';
 };
 
-function CarouselTrack({ cardInfo, items }: CarouselTrackProps) {
+function CarouselTrack({ trackContainerRef, cardInfo, items }: CarouselTrackProps) {
   // const animationDuration: number = 0.3;
   // const cardTrackStyle: React.CSSProperties = {
   //   transform: `translate3d(${translateX}px, 0px, 0px)`,
@@ -21,16 +22,18 @@ function CarouselTrack({ cardInfo, items }: CarouselTrackProps) {
   // }
 
   return (
-    <div className="trackContainer">
-      <div className="cardTrack">
-        {items.map((item, index) => (
-          <CarouselCard
-            key={index}  //TODO: Should be changed to id
-            item={item}
-            cardInfo={cardInfo}
-          />))
-        }
-      </div>
+    <div className="trackContainer" ref={trackContainerRef}>
+      {cardInfo && (
+        <div className="cardTrack">
+          {items.map((item, index) => (
+            <CarouselCard
+              key={index}  //TODO: Should be changed to id
+              item={item}
+              cardInfo={cardInfo}
+            />))
+          }
+        </div>
+      )}
     </div>
   );
 }
