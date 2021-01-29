@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Carousel /> matches snapshot 1`] = `
+<div>
+  <div
+    class="carouselContainer"
+  >
+    <div
+      class="headerContainer"
+    >
+      <h2
+        class="header"
+      >
+        New Restaurants
+      </h2>
+      <div
+        class="buttonsContainer"
+      >
+        <button
+          type="button"
+        >
+          <svg
+            class="ic_m_caret_left_svg__rtlIcon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M15.477 3.977a.503.503 0 01.365.841l-6.68 7.159 6.679 7.159a.502.502 0 01.159.366.5.5 0 01-.888.315l-7-7.5a.498.498 0 010-.682l7-7.5a.496.496 0 01.365-.16"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+        >
+          <svg
+            class="ic_m_caret_right_svg__rtlIcon"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+            />
+            <path
+              d="M8.5 20a.5.5 0 01-.365-.841L14.815 12 8.136 4.841a.5.5 0 11.729-.681l7 7.5c.18.192.18.49 0 .682l-7 7.5a.494.494 0 01-.365.16"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div
+      class="trackContainer"
+    >
+      <div
+        class="cardTrack"
+        style="transform: translate3d(0px, 0px, 0px); transition: none;"
+      >
+        <div
+          class="card"
+          style="width: -8px; min-width: -8px; margin-right: 10px;"
+        >
+          <div
+            class="top"
+            style="height: -4.5px;"
+          >
+            <div
+              class="imageContainer"
+            >
+              <div
+                style="display: inline-block; height: 100%; width: 100%; position: relative;"
+              >
+                <canvas
+                  height="32"
+                  style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%;"
+                  width="32"
+                />
+              </div>
+            </div>
+            <div
+              class="online"
+            >
+              <div>
+                offline
+              </div>
+            </div>
+          </div>
+          <div
+            class="bottom"
+          >
+            <div>
+              0
+            </div>
+          </div>
+        </div>
+        <div
+          class="card"
+          style="width: -8px; min-width: -8px; margin-right: 10px;"
+        >
+          <div
+            class="top"
+            style="height: -4.5px;"
+          >
+            <div
+              class="imageContainer"
+            >
+              <div
+                style="display: inline-block; height: 100%; width: 100%; position: relative;"
+              >
+                <canvas
+                  height="32"
+                  style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%;"
+                  width="32"
+                />
+              </div>
+            </div>
+            <div
+              class="online"
+            >
+              <div>
+                offline
+              </div>
+            </div>
+          </div>
+          <div
+            class="bottom"
+          >
+            <div>
+              1
+            </div>
+          </div>
+        </div>
+        <div
+          class="card"
+          style="width: -8px; min-width: -8px; margin-right: 10px;"
+        >
+          <div
+            class="top"
+            style="height: -4.5px;"
+          >
+            <div
+              class="imageContainer"
+            >
+              <div
+                style="display: inline-block; height: 100%; width: 100%; position: relative;"
+              >
+                <canvas
+                  height="32"
+                  style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%;"
+                  width="32"
+                />
+              </div>
+            </div>
+            <div
+              class="online"
+            >
+              <div>
+                offline
+              </div>
+            </div>
+          </div>
+          <div
+            class="bottom"
+          >
+            <div>
+              2
+            </div>
+          </div>
+        </div>
+        <div
+          class="card"
+          style="width: -8px; min-width: -8px; margin-right: 10px;"
+        >
+          <div
+            class="top"
+            style="height: -4.5px;"
+          >
+            <div
+              class="imageContainer"
+            >
+              <div
+                style="display: inline-block; height: 100%; width: 100%; position: relative;"
+              >
+                <canvas
+                  height="32"
+                  style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%;"
+                  width="32"
+                />
+              </div>
+            </div>
+            <div
+              class="online"
+            >
+              <div>
+                offline
+              </div>
+            </div>
+          </div>
+          <div
+            class="bottom"
+          >
+            <div>
+              3
+            </div>
+          </div>
+        </div>
+        <div
+          class="card"
+          style="width: -8px; min-width: -8px; margin-right: 10px;"
+        >
+          <div
+            class="top"
+            style="height: -4.5px;"
+          >
+            <div
+              class="imageContainer"
+            >
+              <div
+                style="display: inline-block; height: 100%; width: 100%; position: relative;"
+              >
+                <canvas
+                  height="32"
+                  style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%;"
+                  width="32"
+                />
+              </div>
+            </div>
+            <div
+              class="online"
+            >
+              <div>
+                offline
+              </div>
+            </div>
+          </div>
+          <div
+            class="bottom"
+          >
+            <div>
+              4
+            </div>
+          </div>
+        </div>
+        <div
+          class="card"
+          style="width: -8px; min-width: -8px; margin-right: 10px;"
+        >
+          <div
+            class="top"
+            style="height: -4.5px;"
+          >
+            <div
+              class="imageContainer"
+            >
+              <div
+                style="display: inline-block; height: 100%; width: 100%; position: relative;"
+              >
+                <canvas
+                  height="32"
+                  style="position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; width: 100%; height: 100%;"
+                  width="32"
+                />
+              </div>
+            </div>
+            <div
+              class="online"
+            >
+              <div>
+                offline
+              </div>
+            </div>
+          </div>
+          <div
+            class="bottom"
+          >
+            <div>
+              5
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
