@@ -71,6 +71,31 @@ function Carousel({
   enableContinuousClick
 }: CarouselProps) {
 
+  const [state, _setState] = useState<CarouselState>({
+    carouselWidth: 0,
+    cardInfo: { //TODO: it depends on carouselWidth, so it could be removed from state
+      width: 0,
+      imageHeight: 0,
+      gap: 0,
+    },
+    carouselRange: {  // For checking if the prev/next item exists
+      first: 0,
+      last: maxCarouselCardNum - 1,
+    },
+    items: [...propsItems],
+    renderItems: [...propsItems],
+    translateX: 0,
+    direction: 'none',
+  });
+  //NOTE: stateRef is needed for using state in eventlisenter - Use it in transitionEnd
+  const stateRef: React.MutableRefObject<CarouselState> = React.useRef(state);
+  const setState = (newState: CarouselState) => {
+    stateRef.current = newState;
+    _setState(newState);
+  };
+  const trackContainerRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const cardTrackRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
   const handlePrevClick = () => {
     console.log("[Carousel.prev]");
     console.log(state.direction);
@@ -229,32 +254,6 @@ function Carousel({
     console.log("[Carousel.transitionEnd] newState:", newState);
 
     setState(newState);
-  };
-
-  const trackContainerRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const cardTrackRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const [state, _setState] = useState<CarouselState>({
-    carouselWidth: 0,
-    cardInfo: { //TODO: it depends on carouselWidth, so it could be removed from state
-      width: 0,
-      imageHeight: 0,
-      gap: 0,
-    },
-    carouselRange: {  // For checking if the prev/next item exists
-      first: 0,
-      last: maxCarouselCardNum - 1,
-    },
-    items: [...propsItems],
-    renderItems: [...propsItems],
-    translateX: 0,
-    direction: 'none',
-  });
-
-  //NOTE: stateRef is needed for using state in eventlisenter - Use it in transitionEnd
-  const stateRef: React.MutableRefObject<CarouselState> = React.useRef(state);
-  const setState = (newState: CarouselState) => {
-    stateRef.current = newState;
-    _setState(newState);
   };
 
   //TODO: Use padding 30px of discoverWrapper in css for automation

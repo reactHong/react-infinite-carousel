@@ -20,8 +20,11 @@ function Discovery({ sections }: DiscoveryProps) {
     <div className="discoveryWrapper">
       {
         sections.map((section: Section, index: number) => {
+
           const maxCarouselCardNum = section.restaurants.length > MAX_NUM
-            ? MAX_NUM : section.restaurants.length - 1;
+            ? MAX_NUM
+            : section.restaurants.length - 1;
+
           return <Carousel
             key={index}
             title={section.title}
