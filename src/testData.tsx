@@ -261,28 +261,28 @@ export const testDiscoveryData = {
         online: false,
         popularity: 0,
       }, {
-        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        blurhash: "UMD*~9$$azNK9}I@jts-12xEoKaz=wodS3R,",
         launch_date: "",
         location: [],
         name: "1",
         online: false,
         popularity: 0,
       }, {
-        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        blurhash: "U6T69eube;rHy,lNf%a3V5aOkUknu:ZTg1k-",
         launch_date: "",
         location: [],
         name: "2",
         online: false,
         popularity: 0,
       }, {
-        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        blurhash: "UCO;.s:bO%r_yWXlORbbC?TFvobaVDi_t9nS",
         launch_date: "",
         location: [],
         name: "3",
         online: false,
         popularity: 0,
       }, {
-        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        blurhash: "U9O[r*?hI_VN*8yNniVx5^NhxTknY]MmX+tx",
 
         launch_date: "",
         location: [],
@@ -290,7 +290,7 @@ export const testDiscoveryData = {
         online: false,
         popularity: 0,
       }, {
-        blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
+        blurhash: "UQCBXU,@JQn,${xEWXWo31OTwzW-N4Ncs+sV",
         launch_date: "",
         location: [],
         name: "5",
