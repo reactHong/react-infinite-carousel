@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import CarouselHeader from './CarouselHeader';
 import CarouselTrack, { Direction } from './CarouselTrack';
 import { Item, CardInfo } from './CarouselCard';
-import { getElementTranslateX } from '../utils/Util';
 
 type CarouselProps = {
   title: string;
@@ -27,13 +26,21 @@ type CarouselRange = {
 };
 
 //TODO: EMPTY_ITEM can be changed to copiedItem except the real image URL
-const EMPTY_ITEM: Item = {
+export const EMPTY_ITEM: Item = {
   blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
   launch_date: "",
   location: [],
   name: "emptyCard",
   online: false,
   popularity: 0,
+};
+
+//TODO: Consider cross browsing
+const getElementTranslateX = (element: HTMLDivElement): number => {
+  const style: CSSStyleDeclaration = window.getComputedStyle(element);
+  const values = style.transform.split(/\w+\(|\);?/);
+  const transform = values[1].split(/,\s?/g).map(numStr => parseInt(numStr));
+  return transform[0];
 };
 
 const reloadCardInfo = (carouselWidth: number, maxCarouselCardNum: number): CardInfo => {
@@ -68,7 +75,7 @@ function Carousel({
   title,
   propsItems,
   maxCarouselCardNum,
-  enableContinuousClick
+  enableContinuousClick,
 }: CarouselProps) {
 
   const [state, _setState] = useState<CarouselState>({
@@ -124,7 +131,7 @@ function Carousel({
       }
 
       //TODO: "emptyCard" should be compared to id
-      const emptyItems = state.renderItems.filter(item => item.name === "emptyCard");
+      const emptyItems = state.renderItems.filter(item => item.name === EMPTY_ITEM.name);
       renderItems = [...items, ...emptyItems];
       renderItems.push(EMPTY_ITEM);
 
@@ -196,7 +203,7 @@ function Carousel({
       }
 
       //TODO: "emptyCard" should be compared to id
-      const emptyItems: Item[] = state.renderItems.filter(item => item.name === "emptyCard");
+      const emptyItems: Item[] = state.renderItems.filter(item => item.name === EMPTY_ITEM.name);
       renderItems = [...emptyItems, ...items];
       renderItems.unshift(EMPTY_ITEM);
 
@@ -232,7 +239,7 @@ function Carousel({
     let emptyCardsCount: number = 0;
     const newRenderItems: Item[] = state.renderItems.filter(item => {
       //TODO: "emptyCard" should be compared to id
-      if (item.name === "emptyCard") {
+      if (item.name === EMPTY_ITEM.name) {
         emptyCardsCount++;
         return false;
       }

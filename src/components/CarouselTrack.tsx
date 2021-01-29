@@ -2,6 +2,7 @@ import React from 'react';
 import CarouselCard, { Item, CardInfo } from './CarouselCard';
 
 export type Direction = 'prev' | 'next' | 'none';
+export const ANIMATION_DURATION: number = 0.3;
 
 type CarouselTrackProps = {
   trackContainerRef: React.RefObject<HTMLDivElement>;
@@ -21,7 +22,6 @@ function CarouselTrack({
   renderItems,
 }: CarouselTrackProps) {
 
-  const ANIMATION_DURATION: number = 0.3;
   const cardTrackStyle: React.CSSProperties = {
     transform: `translate3d(${translateX}px, 0px, 0px)`,
     transition: `transform ${ANIMATION_DURATION}s`,

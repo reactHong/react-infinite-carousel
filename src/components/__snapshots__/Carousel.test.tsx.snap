@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Carousel /> matches snapshot 1`] = `
+exports[`<Carousel /> [Test initialization] matches snapshot 1`] = `
 <div>
   <div
     class="carouselContainer"
@@ -17,6 +17,7 @@ exports[`<Carousel /> matches snapshot 1`] = `
         class="buttonsContainer"
       >
         <button
+          data-testid="prevButton"
           type="button"
         >
           <svg
@@ -36,6 +37,7 @@ exports[`<Carousel /> matches snapshot 1`] = `
           </svg>
         </button>
         <button
+          data-testid="nextButton"
           type="button"
         >
           <svg
@@ -95,7 +97,9 @@ exports[`<Carousel /> matches snapshot 1`] = `
           <div
             class="bottom"
           >
-            <div>
+            <div
+              data-testid="item-name"
+            >
               0
             </div>
           </div>
@@ -132,7 +136,9 @@ exports[`<Carousel /> matches snapshot 1`] = `
           <div
             class="bottom"
           >
-            <div>
+            <div
+              data-testid="item-name"
+            >
               1
             </div>
           </div>
@@ -169,7 +175,9 @@ exports[`<Carousel /> matches snapshot 1`] = `
           <div
             class="bottom"
           >
-            <div>
+            <div
+              data-testid="item-name"
+            >
               2
             </div>
           </div>
@@ -206,7 +214,9 @@ exports[`<Carousel /> matches snapshot 1`] = `
           <div
             class="bottom"
           >
-            <div>
+            <div
+              data-testid="item-name"
+            >
               3
             </div>
           </div>
@@ -243,7 +253,9 @@ exports[`<Carousel /> matches snapshot 1`] = `
           <div
             class="bottom"
           >
-            <div>
+            <div
+              data-testid="item-name"
+            >
               4
             </div>
           </div>
@@ -280,7 +292,9 @@ exports[`<Carousel /> matches snapshot 1`] = `
           <div
             class="bottom"
           >
-            <div>
+            <div
+              data-testid="item-name"
+            >
               5
             </div>
           </div>

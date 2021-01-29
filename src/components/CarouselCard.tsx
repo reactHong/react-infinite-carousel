@@ -51,7 +51,7 @@ function CarouselCard({ cardInfo, item }: CarouselCardProps) {
         </div>
       </div >
       <div className="bottom">
-        <div>{item.name}</div>
+        <div data-testid="item-name">{item.name}</div>
       </div>
     </div >
   );
