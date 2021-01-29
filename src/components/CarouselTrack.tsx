@@ -26,7 +26,7 @@ function CarouselTrack({
     transform: `translate3d(${translateX}px, 0px, 0px)`,
     transition: `transform ${ANIMATION_DURATION}s`,
   };
-  console.log("   [CarouselTrack.render] direction:", direction);
+  // console.log("   [CarouselTrack.render] direction:", direction);
 
   if (direction !== "next" && direction !== "prev") {
     cardTrackStyle.transition = "none";

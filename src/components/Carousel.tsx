@@ -104,8 +104,8 @@ function Carousel({
   const cardTrackRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   const handlePrevClick = () => {
-    console.log("[Carousel.prev]");
-    console.log(state.direction);
+    // console.log("[Carousel.prev]");
+    // console.log(state.direction);
 
     if (enableContinuousClick && state.direction === "next") return;
     if (!enableContinuousClick && state.direction !== "none") return;
@@ -118,7 +118,7 @@ function Carousel({
     let newTranslateX: number = state.translateX + translateXUnit;
 
     if (isPrevCardEmpty(carouselRange.first)) {
-      console.log("isPrevCardEmpty:", true);
+      // console.log("isPrevCardEmpty:", true);
 
       //TODO: Find a better way for the performance of manipulating an array
       //Re-organize items / renderItems
@@ -145,9 +145,11 @@ function Carousel({
       newTranslateX = currentTranslateX - translateXUnit;
       newDirection = "none";
 
+      // console.log("[Carousel.prev] currentTranslateX:", currentTranslateX);
+
       setTimeout(() => {
         const state = stateRef.current;
-        console.log("Restart animation!!! state:", state);
+        // console.log("Restart animation!!! state:", state);
         setState({
           ...state,
           translateX: 0,
@@ -156,15 +158,15 @@ function Carousel({
       }, 20);
 
     } else {
-      console.log("isPrevCardEmpty:", false);
+      // console.log("isPrevCardEmpty:", false);
       renderItems = [...items];
 
       carouselRange.first--;
       carouselRange.last--;
     }
-    console.log("[CarouselContainer.prev] items:", items);
-    console.log("[CarouselContainer.prev] carouselRange:", carouselRange);
-    console.log("[CarouselContainer.prev] renderItems:", renderItems);
+    // console.log("[Carousel.prev] items:", items);
+    // console.log("[Carousel.prev] carouselRange:", carouselRange);
+    // console.log("[Carousel.prev] renderItems:", renderItems);
 
     setState({
       ...state,
@@ -178,8 +180,8 @@ function Carousel({
   };
 
   const handleNextClick = () => {
-    console.log("[Carousel.next]");
-    console.log(state.direction);
+    // console.log("[Carousel.next]");
+    // console.log(state.direction);
 
     if (enableContinuousClick && state.direction === "prev") return;
     if (!enableContinuousClick && state.direction !== "none") return;
@@ -191,7 +193,7 @@ function Carousel({
     let renderItems: Item[] = [];
 
     if (isNextCardEmpty(carouselRange.last, items.length)) {
-      console.log("isNextCardEmpty:", true);
+      // console.log("isNextCardEmpty:", true);
 
       //TODO: Find a better way for the performance of manipulating an array
       //Re-organize items / renderItems
@@ -208,16 +210,16 @@ function Carousel({
       renderItems.unshift(EMPTY_ITEM);
 
     } else {
-      console.log("isNextCardEmpty:", false);
+      // console.log("isNextCardEmpty:", false);
       renderItems = [...items];
 
       carouselRange.first++;
       carouselRange.last++;
     }
-    console.log("[Carousel.next] items:", items);
-    console.log("[Carousel.next] carouselRange:", carouselRange);
-    console.log("[Carousel.next] renderItems:", renderItems);
-    console.log("[Carousel.next] state:", state);
+    // console.log("[Carousel.next] items:", items);
+    // console.log("[Carousel.next] carouselRange:", carouselRange);
+    // console.log("[Carousel.next] renderItems:", renderItems);
+    // console.log("[Carousel.next] state:", state);
 
     setState({
       ...state,
@@ -234,7 +236,7 @@ function Carousel({
     // console.log("[Carousel.transitionEnd] items:", state.items);
     // console.log("[Carousel.transitionEnd] carouselRange:", state.carouselRange);
     // console.log("[Carousel.transitionEnd] renderItems:", state.renderItems);
-    console.log("[Carousel.transitionEnd] state:", state);
+    // console.log("[Carousel.transitionEnd] state:", state);
 
     let emptyCardsCount: number = 0;
     const newRenderItems: Item[] = state.renderItems.filter(item => {
@@ -258,7 +260,7 @@ function Carousel({
     }
     // console.log("[Carousel.transitionEnd] newRenderItems:", newState.renderItems);
     // console.log("[Carousel.transitionEnd] translateX:", newState.translateX);
-    console.log("[Carousel.transitionEnd] newState:", newState);
+    // console.log("[Carousel.transitionEnd] newState:", newState);
 
     setState(newState);
   };
@@ -266,9 +268,9 @@ function Carousel({
   //TODO: Use padding 30px of discoverWrapper in css for automation
   // console.log("window.innerWidth:", window.innerWidth);
 
-  console.log("\n[Carousel] state:", state);
+  // console.log("\n[Carousel] state:", state);
   useEffect(() => {
-    console.log("[Carousel.useEffect]");
+    // console.log("[Carousel.useEffect]");
 
     //TODO: Render 3 times when first loading 
     //  1. for getting carouselWidth - trackContainerRef.current!.clientWidth
@@ -279,7 +281,7 @@ function Carousel({
     const carouselWidth: number = trackContainerRef.current!.clientWidth;
     const cardInfo: CardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
 
-    console.log("[Carousel.useEffect] carouselWidth:", carouselWidth);
+    // console.log("[Carousel.useEffect] carouselWidth:", carouselWidth);
 
     setState({
       ...state,
@@ -287,7 +289,7 @@ function Carousel({
       cardInfo,
     });
 
-    console.log("[Carousel.useEffect] cardTrackRef.current:", cardTrackRef.current);
+    // console.log("[Carousel.useEffect] cardTrackRef.current:", cardTrackRef.current);
     cardTrackRef.current?.addEventListener("transitionend", transitionEnd);
     return () => {
       console.log("removeEventListener");
@@ -295,7 +297,7 @@ function Carousel({
     };
   }, []);
 
-  console.log("-- [Carousel.render]!!!!");
+  // console.log("-- [Carousel.render]!!!!");
   return (
     <div className="carouselContainer">
       <CarouselHeader title={title} prev={handlePrevClick} next={handleNextClick} />
