@@ -11,8 +11,6 @@ type CarouselProps = {
 };
 
 type CarouselState = {
-  carouselWidth: number;
-  cardInfo: CardInfo;
   carouselRange: CarouselRange;
   items: Item[];
   renderItems: Item[];
@@ -111,13 +109,12 @@ function Carousel({
   //   return <div></div>;
   // }
 
+  const [cardInfo, _setCardInfo] = useState<CardInfo>({
+    width: 0,
+    imageHeight: 0,
+    gap: 0,
+  });
   const [state, _setState] = useState<CarouselState>({
-    carouselWidth: 0,
-    cardInfo: { //TODO: it depends on carouselWidth, so it could be removed from state
-      width: 0,
-      imageHeight: 0,
-      gap: 0,
-    },
     carouselRange: {  // For checking if the prev/next item exists
       first: 0,
       last: maxCarouselCardNum - 1,
@@ -129,13 +126,19 @@ function Carousel({
   });
 
   //NOTE: stateRef is needed for using state in eventlisenter - Use it in transitionEnd
-  const stateRef: React.MutableRefObject<CarouselState> = React.useRef(state);
+  const cardInfoRef = React.useRef<CardInfo>(cardInfo);
+  const stateRef = React.useRef<CarouselState>(state);
+  const setCardInfo = (newCardInfo: CardInfo) => {
+    cardInfoRef.current = newCardInfo;
+    _setCardInfo(newCardInfo);
+  };
   const setState = (newState: CarouselState) => {
     stateRef.current = newState;
     _setState(newState);
   };
-  const trackContainerRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
-  const cardTrackRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+
+  const trackContainerRef = useRef<HTMLDivElement>(null);
+  const cardTrackRef = useRef<HTMLDivElement>(null);
 
   const handlePrevClick = () => {
     if (enableContinuousClick && state.direction === "next") return;
@@ -144,7 +147,9 @@ function Carousel({
     const checker = carouselChecker(state.items, state.carouselRange);
     const shouldReorder = checker.prev();
     const renderItems: Item[] = [...checker.items];
-    const translateXUnit: number = state.cardInfo.width + state.cardInfo.gap;
+
+    const translateXUnit: number = cardInfo.width + cardInfo.gap;
+    console.log("prev: translateXUnit:", translateXUnit);
     let newDirection: Direction = "prev";
     let newTranslateX: number = state.translateX + translateXUnit;
 
@@ -190,7 +195,8 @@ function Carousel({
 
     const checker = carouselChecker(state.items, state.carouselRange);
     const shouldReorder = checker.next();
-    const translateXUnit: number = state.cardInfo.width + state.cardInfo.gap;
+    const translateXUnit: number = cardInfo.width + cardInfo.gap;
+    console.log("next: translateXUnit:", translateXUnit);
     const translateX: number = state.translateX - translateXUnit;
     const renderItems: Item[] = [...checker.items];
 
@@ -213,6 +219,7 @@ function Carousel({
 
   const transitionEnd = () => {
     const state = stateRef.current;
+    const cardInfo = cardInfoRef.current;
 
     let emptyCardsCount: number = 0;
     const newRenderItems: Item[] = state.renderItems.filter(item => {
@@ -230,7 +237,7 @@ function Carousel({
     };
 
     if (state.direction === "next") {
-      const translateXUnit = state.cardInfo.width + state.cardInfo.gap;
+      const translateXUnit = cardInfo.width + cardInfo.gap;
       const newTranslateX = state.translateX + translateXUnit * emptyCardsCount;
       newState.translateX = newTranslateX;
     }
@@ -241,15 +248,8 @@ function Carousel({
     if (!trackContainerRef.current) return;
 
     const carouselWidth: number = trackContainerRef.current!.clientWidth;
-    const cardInfo: CardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
-
-    console.log("[Carousel.handleResize] carouselWidth:", carouselWidth);
-
-    setState({
-      ...state,
-      carouselWidth,
-      cardInfo,
-    });
+    const cardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
+    setCardInfo(cardInfo);
   };
 
   // console.log("\n[Carousel] state:", state);
@@ -263,15 +263,8 @@ function Carousel({
     if (!trackContainerRef.current) return;
 
     const carouselWidth: number = trackContainerRef.current!.clientWidth;
-    const cardInfo: CardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
-
-    // console.log("[Carousel.useEffect] carouselWidth:", carouselWidth);
-
-    setState({
-      ...state,
-      carouselWidth,
-      cardInfo,
-    });
+    const cardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
+    setCardInfo(cardInfo);
 
     // console.log("[Carousel.useEffect] cardTrackRef.current:", cardTrackRef.current);
     window.addEventListener("resize", handleResize);
@@ -290,7 +283,7 @@ function Carousel({
       <CarouselTrack
         trackContainerRef={trackContainerRef}
         cardTrackRef={cardTrackRef}
-        cardInfo={state.cardInfo}
+        cardInfo={cardInfo}
         direction={state.direction}
         translateX={state.translateX}
         renderItems={state.renderItems}
