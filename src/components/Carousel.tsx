@@ -149,7 +149,6 @@ function Carousel({
     const renderItems: Item[] = [...checker.items];
 
     const translateXUnit: number = cardInfo.width + cardInfo.gap;
-    console.log("prev: translateXUnit:", translateXUnit);
     let newDirection: Direction = "prev";
     let newTranslateX: number = state.translateX + translateXUnit;
 
@@ -180,7 +179,6 @@ function Carousel({
     }
 
     setState({
-      ...state,
       carouselRange: { ...checker.range },
       items: [...checker.items],
       renderItems: renderItems,
@@ -196,7 +194,6 @@ function Carousel({
     const checker = carouselChecker(state.items, state.carouselRange);
     const shouldReorder = checker.next();
     const translateXUnit: number = cardInfo.width + cardInfo.gap;
-    console.log("next: translateXUnit:", translateXUnit);
     const translateX: number = state.translateX - translateXUnit;
     const renderItems: Item[] = [...checker.items];
 
@@ -208,7 +205,6 @@ function Carousel({
     }
 
     setState({
-      ...state,
       items: [...checker.items],
       carouselRange: { ...checker.range },
       renderItems: renderItems,
@@ -245,9 +241,10 @@ function Carousel({
   };
 
   const handleResize = () => {
-    if (!trackContainerRef.current) return;
+    const trackContainer = trackContainerRef.current;
+    if (!trackContainer) return;
 
-    const carouselWidth: number = trackContainerRef.current!.clientWidth;
+    const carouselWidth: number = trackContainer!.clientWidth;
     const cardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
     setCardInfo(cardInfo);
   };
@@ -260,18 +257,20 @@ function Carousel({
     //  1. for getting carouselWidth - trackContainerRef.current!.clientWidth
     //  2. for rendering loading screen
     //  3. for rendering with actual data
-    if (!trackContainerRef.current) return;
+    const trackContainer = trackContainerRef.current;
+    const cardTrack = cardTrackRef.current;
+    if (!trackContainerRef) return;
+    if (!cardTrackRef) return;
 
-    const carouselWidth: number = trackContainerRef.current!.clientWidth;
+    const carouselWidth: number = trackContainer!.clientWidth;
     const cardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
     setCardInfo(cardInfo);
 
-    // console.log("[Carousel.useEffect] cardTrackRef.current:", cardTrackRef.current);
     window.addEventListener("resize", handleResize);
-    cardTrackRef.current?.addEventListener("transitionend", transitionEnd);
+    cardTrack!.addEventListener("transitionend", transitionEnd);
     return () => {
       console.log("removeEventListener");
-      cardTrackRef.current?.removeEventListener("transitionend", transitionEnd);
+      cardTrack!.removeEventListener("transitionend", transitionEnd);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
