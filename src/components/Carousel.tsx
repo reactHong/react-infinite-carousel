@@ -237,8 +237,20 @@ function Carousel({
     setState(newState);
   };
 
-  //TODO: Use padding 30px of discoverWrapper in css for automation
-  // console.log("window.innerWidth:", window.innerWidth);
+  const handleResize = () => {
+    if (!trackContainerRef.current) return;
+
+    const carouselWidth: number = trackContainerRef.current!.clientWidth;
+    const cardInfo: CardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
+
+    console.log("[Carousel.handleResize] carouselWidth:", carouselWidth);
+
+    setState({
+      ...state,
+      carouselWidth,
+      cardInfo,
+    });
+  };
 
   // console.log("\n[Carousel] state:", state);
   useEffect(() => {
@@ -262,10 +274,12 @@ function Carousel({
     });
 
     // console.log("[Carousel.useEffect] cardTrackRef.current:", cardTrackRef.current);
+    window.addEventListener("resize", handleResize);
     cardTrackRef.current?.addEventListener("transitionend", transitionEnd);
     return () => {
       console.log("removeEventListener");
       cardTrackRef.current?.removeEventListener("transitionend", transitionEnd);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
