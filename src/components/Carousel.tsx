@@ -59,17 +59,44 @@ const reloadCardInfo = (carouselWidth: number, maxCarouselCardNum: number): Card
   };
 };
 
-const isPrevCardEmpty = (rangeFirst: number) => {
-  if (rangeFirst === 0)
-    return true;
-  return false;
-}
+const carouselChecker = (items: Item[], range: CarouselRange) => {
+  const cItems = [...items];
+  const cRange = { ...range };
 
-const isNextCardEmpty = (rangeLast: number, itemsLength: number) => {
-  if (rangeLast >= itemsLength - 1)
-    return true;
-  return false;
-}
+  const isPrevItemEmpty = () => ((cRange.first === 0) ? true : false);
+  const isNextItemEmpty = () => ((cRange.last >= cItems.length - 1) ? true : false);
+
+  const prev = (): boolean => {
+    let shouldReorder: boolean = false;
+    if (isPrevItemEmpty()) {
+      cItems.unshift(cItems.pop()!);
+      shouldReorder = true;
+    } else {
+      cRange.first--;
+      cRange.last--;
+    }
+    return shouldReorder;
+  };
+
+  const next = (): boolean => {
+    let shouldReorder: boolean = false;
+    if (isNextItemEmpty()) {
+      cItems.push(cItems.shift()!)
+      shouldReorder = true;
+    } else {
+      cRange.first++;
+      cRange.last++;
+    }
+    return shouldReorder;
+  };
+
+  return {
+    items: cItems,
+    range: cRange,
+    prev: prev,
+    next: next,
+  }
+};
 
 function Carousel({
   title,
@@ -77,6 +104,12 @@ function Carousel({
   maxCarouselCardNum,
   enableContinuousClick,
 }: CarouselProps) {
+
+  //TODO: It should be guaranted that propsItems is always not empty
+  // if (propsItems.length <= 0) {
+  //   //TODO: Error Handling
+  //   return <div></div>;
+  // }
 
   const [state, _setState] = useState<CarouselState>({
     carouselWidth: 0,
@@ -94,6 +127,7 @@ function Carousel({
     translateX: 0,
     direction: 'none',
   });
+
   //NOTE: stateRef is needed for using state in eventlisenter - Use it in transitionEnd
   const stateRef: React.MutableRefObject<CarouselState> = React.useRef(state);
   const setState = (newState: CarouselState) => {
@@ -104,127 +138,73 @@ function Carousel({
   const cardTrackRef: React.RefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
 
   const handlePrevClick = () => {
-    // console.log("[Carousel.prev]");
-    // console.log(state.direction);
-
     if (enableContinuousClick && state.direction === "next") return;
     if (!enableContinuousClick && state.direction !== "none") return;
 
-    const items: Item[] = [...state.items];
-    const carouselRange: CarouselRange = { ...state.carouselRange };
+    const checker = carouselChecker(state.items, state.carouselRange);
+    const shouldReorder = checker.prev();
+    const renderItems: Item[] = [...checker.items];
     const translateXUnit: number = state.cardInfo.width + state.cardInfo.gap;
-    let renderItems: Item[] = [];
     let newDirection: Direction = "prev";
     let newTranslateX: number = state.translateX + translateXUnit;
 
-    if (isPrevCardEmpty(carouselRange.first)) {
-      // console.log("isPrevCardEmpty:", true);
-
-      //TODO: Find a better way for the performance of manipulating an array
-      //Re-organize items / renderItems
-      const lastItem: Item | undefined = items.pop();
-      if (lastItem) {
-        items.unshift(lastItem);
-      } else {
-        //TODO: Error handling - It means there is no items.
+    if (shouldReorder) {
+      if (!cardTrackRef.current) {
+        //TODO: Error handling - It means something UI could be changed
         return;
       }
 
       //TODO: "emptyCard" should be compared to id
       const emptyItems = state.renderItems.filter(item => item.name === EMPTY_ITEM.name);
-      renderItems = [...items, ...emptyItems];
-      renderItems.push(EMPTY_ITEM);
-
-      if (!cardTrackRef.current) {
-        //TODO: Error handling - It means something is changed
-        return;
-      }
+      emptyItems.push(EMPTY_ITEM);
+      renderItems.push(...emptyItems);
 
       //NOTE: With new direction, transition would be none in a while for repositioning.
       const currentTranslateX = getElementTranslateX(cardTrackRef.current);
       newTranslateX = currentTranslateX - translateXUnit;
       newDirection = "none";
 
-      // console.log("[Carousel.prev] currentTranslateX:", currentTranslateX);
-
       setTimeout(() => {
         const state = stateRef.current;
-        // console.log("Restart animation!!! state:", state);
         setState({
           ...state,
           translateX: 0,
-          direction: "prev"
+          direction: "prev",
         });
       }, 20);
-
-    } else {
-      // console.log("isPrevCardEmpty:", false);
-      renderItems = [...items];
-
-      carouselRange.first--;
-      carouselRange.last--;
     }
-    // console.log("[Carousel.prev] items:", items);
-    // console.log("[Carousel.prev] carouselRange:", carouselRange);
-    // console.log("[Carousel.prev] renderItems:", renderItems);
 
     setState({
       ...state,
-      items: items,
+      carouselRange: { ...checker.range },
+      items: [...checker.items],
       renderItems: renderItems,
-      carouselRange: carouselRange,
       translateX: newTranslateX,
       direction: newDirection,
     });
-
   };
 
   const handleNextClick = () => {
-    // console.log("[Carousel.next]");
-    // console.log(state.direction);
-
     if (enableContinuousClick && state.direction === "prev") return;
     if (!enableContinuousClick && state.direction !== "none") return;
 
-    const items: Item[] = [...state.items];
-    const carouselRange: CarouselRange = { ...state.carouselRange };
+    const checker = carouselChecker(state.items, state.carouselRange);
+    const shouldReorder = checker.next();
     const translateXUnit: number = state.cardInfo.width + state.cardInfo.gap;
     const translateX: number = state.translateX - translateXUnit;
-    let renderItems: Item[] = [];
+    const renderItems: Item[] = [...checker.items];
 
-    if (isNextCardEmpty(carouselRange.last, items.length)) {
-      // console.log("isNextCardEmpty:", true);
-
-      //TODO: Find a better way for the performance of manipulating an array
-      //Re-organize items / renderItems
-      const firstItem: Item | undefined = items.shift();
-      if (firstItem) {
-        items.push(firstItem);
-      } else {
-        //TODO: Error handling - It means there is no items.
-      }
-
+    if (shouldReorder) {
       //TODO: "emptyCard" should be compared to id
       const emptyItems: Item[] = state.renderItems.filter(item => item.name === EMPTY_ITEM.name);
-      renderItems = [...emptyItems, ...items];
-      renderItems.unshift(EMPTY_ITEM);
-
-    } else {
-      // console.log("isNextCardEmpty:", false);
-      renderItems = [...items];
-
-      carouselRange.first++;
-      carouselRange.last++;
+      emptyItems.unshift(EMPTY_ITEM);
+      renderItems.unshift(...emptyItems);
     }
-    // console.log("[Carousel.next] items:", items);
-    // console.log("[Carousel.next] carouselRange:", carouselRange);
-    // console.log("[Carousel.next] renderItems:", renderItems);
-    // console.log("[Carousel.next] state:", state);
 
     setState({
       ...state,
-      carouselRange: carouselRange,
-      items: items,
+      items: [...checker.items],
+      carouselRange: { ...checker.range },
       renderItems: renderItems,
       translateX: translateX,
       direction: "next",
@@ -233,10 +213,6 @@ function Carousel({
 
   const transitionEnd = () => {
     const state = stateRef.current;
-    // console.log("[Carousel.transitionEnd] items:", state.items);
-    // console.log("[Carousel.transitionEnd] carouselRange:", state.carouselRange);
-    // console.log("[Carousel.transitionEnd] renderItems:", state.renderItems);
-    // console.log("[Carousel.transitionEnd] state:", state);
 
     let emptyCardsCount: number = 0;
     const newRenderItems: Item[] = state.renderItems.filter(item => {
@@ -258,10 +234,6 @@ function Carousel({
       const newTranslateX = state.translateX + translateXUnit * emptyCardsCount;
       newState.translateX = newTranslateX;
     }
-    // console.log("[Carousel.transitionEnd] newRenderItems:", newState.renderItems);
-    // console.log("[Carousel.transitionEnd] translateX:", newState.translateX);
-    // console.log("[Carousel.transitionEnd] newState:", newState);
-
     setState(newState);
   };
 
