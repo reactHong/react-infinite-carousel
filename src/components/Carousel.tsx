@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CarouselHeader from './CarouselHeader';
-import CarouselTrack, { Direction } from './CarouselTrack';
-import { Item, CardInfo } from './CarouselCard';
+import CarouselTrack from './CarouselTrack';
+import { Item, CardInfo, Direction, EMPTY_ITEM, carouselChecker, reloadCardInfo, getElementTranslateX } from '../CarouselUtil';
 
 type CarouselProps = {
   title: string;
@@ -11,89 +11,9 @@ type CarouselProps = {
 };
 
 type CarouselState = {
-  carouselRange: CarouselRange;
-  items: Item[];
   renderItems: Item[];
   translateX: number;
   direction: Direction;
-};
-
-type CarouselRange = {
-  first: number;
-  last: number;
-};
-
-//TODO: EMPTY_ITEM can be changed to copiedItem except the real image URL
-export const EMPTY_ITEM: Item = {
-  blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-  launch_date: "",
-  location: [],
-  name: "emptyCard",
-  online: false,
-  popularity: 0,
-};
-
-//TODO: Consider cross browsing
-const getElementTranslateX = (element: HTMLDivElement): number => {
-  const style: CSSStyleDeclaration = window.getComputedStyle(element);
-  const values = style.transform.split(/\w+\(|\);?/);
-  const transform = values[1].split(/,\s?/g).map(numStr => parseInt(numStr));
-  return transform[0];
-};
-
-const reloadCardInfo = (carouselWidth: number, maxCarouselCardNum: number): CardInfo => {
-  //TODO: This depends on this.state.carouselWidth에 depend on. 
-  //      cardInfo should be reset if the width is changed.
-  //      Think about good structure when resizing the window
-  const cardGap: number = 10;
-  const hvRatio: number = 9 / 16;
-  const cardWidth: number = (carouselWidth - (cardGap * (maxCarouselCardNum - 1))) / maxCarouselCardNum;
-  const cardHeight: number = cardWidth * hvRatio;
-
-  return {
-    width: cardWidth,
-    imageHeight: cardHeight,
-    gap: cardGap,
-  };
-};
-
-const carouselChecker = (items: Item[], range: CarouselRange) => {
-  const cItems = [...items];
-  const cRange = { ...range };
-
-  const isPrevItemEmpty = () => ((cRange.first === 0) ? true : false);
-  const isNextItemEmpty = () => ((cRange.last >= cItems.length - 1) ? true : false);
-
-  const prev = (): boolean => {
-    let shouldReorder: boolean = false;
-    if (isPrevItemEmpty()) {
-      cItems.unshift(cItems.pop()!);
-      shouldReorder = true;
-    } else {
-      cRange.first--;
-      cRange.last--;
-    }
-    return shouldReorder;
-  };
-
-  const next = (): boolean => {
-    let shouldReorder: boolean = false;
-    if (isNextItemEmpty()) {
-      cItems.push(cItems.shift()!)
-      shouldReorder = true;
-    } else {
-      cRange.first++;
-      cRange.last++;
-    }
-    return shouldReorder;
-  };
-
-  return {
-    items: cItems,
-    range: cRange,
-    prev: prev,
-    next: next,
-  }
 };
 
 function Carousel({
@@ -115,19 +35,16 @@ function Carousel({
     gap: 0,
   });
   const [state, _setState] = useState<CarouselState>({
-    carouselRange: {  // For checking if the prev/next item exists
-      first: 0,
-      last: maxCarouselCardNum - 1,
-    },
-    items: [...propsItems],
     renderItems: [...propsItems],
     translateX: 0,
     direction: 'none',
   });
 
-  //NOTE: stateRef is needed for using state in eventlisenter - Use it in transitionEnd
-  const cardInfoRef = React.useRef<CardInfo>(cardInfo);
-  const stateRef = React.useRef<CarouselState>(state);
+  const trackContainerRef = useRef<HTMLDivElement>(null);
+  const cardTrackRef = useRef<HTMLDivElement>(null);
+  const checkerRef = useRef(carouselChecker(propsItems, maxCarouselCardNum));
+  const cardInfoRef = useRef<CardInfo>(cardInfo);
+  const stateRef = useRef<CarouselState>(state);
   const setCardInfo = (newCardInfo: CardInfo) => {
     cardInfoRef.current = newCardInfo;
     _setCardInfo(newCardInfo);
@@ -137,16 +54,13 @@ function Carousel({
     _setState(newState);
   };
 
-  const trackContainerRef = useRef<HTMLDivElement>(null);
-  const cardTrackRef = useRef<HTMLDivElement>(null);
-
   const handlePrevClick = () => {
     if (enableContinuousClick && state.direction === "next") return;
     if (!enableContinuousClick && state.direction !== "none") return;
 
-    const checker = carouselChecker(state.items, state.carouselRange);
+    const checker = checkerRef.current;
     const shouldReorder = checker.prev();
-    const renderItems: Item[] = [...checker.items];
+    const renderItems: Item[] = [...checker.getItems()];
 
     const translateXUnit: number = cardInfo.width + cardInfo.gap;
     let newDirection: Direction = "prev";
@@ -157,14 +71,13 @@ function Carousel({
         //TODO: Error handling - It means something UI could be changed
         return;
       }
-
-      //TODO: "emptyCard" should be compared to id
+      const cardTrack = cardTrackRef.current;
       const emptyItems = state.renderItems.filter(item => item.name === EMPTY_ITEM.name);
       emptyItems.push(EMPTY_ITEM);
       renderItems.push(...emptyItems);
 
       //NOTE: With new direction, transition would be none in a while for repositioning.
-      const currentTranslateX = getElementTranslateX(cardTrackRef.current);
+      const currentTranslateX = getElementTranslateX(cardTrack);
       newTranslateX = currentTranslateX - translateXUnit;
       newDirection = "none";
 
@@ -179,8 +92,6 @@ function Carousel({
     }
 
     setState({
-      carouselRange: { ...checker.range },
-      items: [...checker.items],
       renderItems: renderItems,
       translateX: newTranslateX,
       direction: newDirection,
@@ -191,22 +102,19 @@ function Carousel({
     if (enableContinuousClick && state.direction === "prev") return;
     if (!enableContinuousClick && state.direction !== "none") return;
 
-    const checker = carouselChecker(state.items, state.carouselRange);
+    const checker = checkerRef.current;
     const shouldReorder = checker.next();
     const translateXUnit: number = cardInfo.width + cardInfo.gap;
     const translateX: number = state.translateX - translateXUnit;
-    const renderItems: Item[] = [...checker.items];
+    const renderItems: Item[] = [...checker.getItems()];
 
     if (shouldReorder) {
-      //TODO: "emptyCard" should be compared to id
       const emptyItems: Item[] = state.renderItems.filter(item => item.name === EMPTY_ITEM.name);
       emptyItems.unshift(EMPTY_ITEM);
       renderItems.unshift(...emptyItems);
     }
 
     setState({
-      items: [...checker.items],
-      carouselRange: { ...checker.range },
       renderItems: renderItems,
       translateX: translateX,
       direction: "next",
@@ -219,7 +127,6 @@ function Carousel({
 
     let emptyCardsCount: number = 0;
     const newRenderItems: Item[] = state.renderItems.filter(item => {
-      //TODO: "emptyCard" should be compared to id
       if (item.name === EMPTY_ITEM.name) {
         emptyCardsCount++;
         return false;
@@ -249,10 +156,7 @@ function Carousel({
     setCardInfo(cardInfo);
   };
 
-  // console.log("\n[Carousel] state:", state);
   useEffect(() => {
-    // console.log("[Carousel.useEffect]");
-
     //TODO: Render 3 times when first loading 
     //  1. for getting carouselWidth - trackContainerRef.current!.clientWidth
     //  2. for rendering loading screen

@@ -1,8 +1,6 @@
 import React from 'react';
-import CarouselCard, { Item, CardInfo } from './CarouselCard';
-
-export type Direction = 'prev' | 'next' | 'none';
-export const ANIMATION_DURATION: number = 0.3;
+import CarouselCard from './CarouselCard';
+import { Item, CardInfo, Direction, ANIMATION_DURATION } from '../CarouselUtil';
 
 type CarouselTrackProps = {
   trackContainerRef: React.RefObject<HTMLDivElement>;

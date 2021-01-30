@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from './Carousel';
-import { Item } from './CarouselCard';
+import { Item } from '../CarouselUtil';
 
 export type DiscoveryProps = {
   sections: Section[];
