@@ -1,6 +1,6 @@
 import React from 'react';
 import { Blurhash } from 'react-blurhash';
-import { CardInfo, Item } from '../CarouselUtil';
+import { CardInfo, Item } from '../utils/CarouselUtil';
 
 type CarouselCardProps = {
   cardInfo: CardInfo;
@@ -8,10 +8,6 @@ type CarouselCardProps = {
 };
 
 function CarouselCard({ cardInfo, item }: CarouselCardProps) {
-
-  //TODO: Need placeholder before loading data
-  if (!item) return <div>Loading Placeholder</div>;
-
   const cardWidth = cardInfo.width;
   const cardStyle: React.CSSProperties = {
     width: cardWidth,
@@ -45,4 +41,10 @@ function CarouselCard({ cardInfo, item }: CarouselCardProps) {
   );
 }
 
-export default CarouselCard;
+function areEqual(prevProps: CarouselCardProps, nextProps: CarouselCardProps) {
+  return (prevProps.item.id === nextProps.item.id
+    && prevProps.cardInfo.width === nextProps.cardInfo.width);
+}
+
+export default React.memo(CarouselCard, areEqual);
+

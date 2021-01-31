@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent, cleanup, RenderResult } from '@testing-library/react';
-import { Section } from '../components/Discovery';
 import Carousel from '../components/Carousel';
-import { EMPTY_ITEM } from '../CarouselUtil';
+import { Item, EMPTY_ITEM_NAME } from '../utils/CarouselUtil';
+import { generateID } from '../utils/util';
 import { testDiscoveryData } from './testData';
 
 //**************************************************************
@@ -11,15 +11,24 @@ import { testDiscoveryData } from './testData';
 //TODO: Add a test when continuousClick = false 
 //      after figuring out how to test DOM after the transition
 //**************************************************************
+type Section = {
+  title: string;
+  restaurants: Item[];
+};
 
 //NOTE: Testing cases are should be changed if MAX_NUM value is not 5
 const MAX_NUM: number = 5;
 const continuousClick: boolean = true;
-const section: Section = testDiscoveryData.sections[0];
+const dataObj: object = testDiscoveryData;
+const sections: Section[] = Object.values(dataObj)[0];
+sections.forEach((section: Section) => {
+  section.restaurants.forEach((restaurant) => restaurant.id = generateID());
+});
+const section: Section = sections[0];
 
 function getItemNames(): (string | null)[] {
   const divs: HTMLElement[] = screen.getAllByTestId('item-name');
-  const itemNames: (string | null)[] = divs.map((div: HTMLElement): string | null => div.textContent).filter((name: string | null) => name !== EMPTY_ITEM.name);
+  const itemNames: (string | null)[] = divs.map((div: HTMLElement): string | null => div.textContent).filter((name: string | null) => name !== EMPTY_ITEM_NAME);
   return [...itemNames];
 }
 

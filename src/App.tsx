@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Discovery, { Section } from './components/Discovery';
+import Discovery from './components/Discovery';
+import { testDiscoveryData } from './unittest/testData';
 
-type DiscoveryData = {
-  sections: Section[];
-};
+// type DiscoveryData = {
+//   sections: Section[];
+// };
 
 function App() {
-
-  const [discoveryData, setDiscoveryData] = useState<DiscoveryData>({
-    sections: [],
-  });
+  const [discoveryData, setDiscoveryData] = useState<object | null>(null);
 
   useEffect(() => {
     fetch("./discovery_page.json")
@@ -24,8 +22,9 @@ function App() {
       });
   }, []);
 
+  console.log("-- [App.render]");
   return (
-    <Discovery sections={discoveryData.sections} />
+    <Discovery data={discoveryData} />
   );
 }
 

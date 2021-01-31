@@ -1,6 +1,6 @@
 import React from 'react';
 import CarouselCard from './CarouselCard';
-import { Item, CardInfo, Direction, ANIMATION_DURATION } from '../CarouselUtil';
+import { Item, CardInfo, Direction, ANIMATION_DURATION } from '../utils/CarouselUtil';
 
 type CarouselTrackProps = {
   trackContainerRef: React.RefObject<HTMLDivElement>;
@@ -24,7 +24,6 @@ function CarouselTrack({
     transform: `translate3d(${translateX}px, 0px, 0px)`,
     transition: `transform ${ANIMATION_DURATION}s`,
   };
-  // console.log("   [CarouselTrack.render] direction:", direction);
 
   if (direction !== "next" && direction !== "prev") {
     cardTrackStyle.transition = "none";
@@ -34,9 +33,9 @@ function CarouselTrack({
     <div className="trackContainer" ref={trackContainerRef}>
       <div className="cardTrack" ref={cardTrackRef} style={cardTrackStyle}>
         {
-          renderItems.map((item, index) => (
+          renderItems.map((item) => (
             <CarouselCard
-              key={index}  //TODO: Should be changed to id
+              key={item.id}
               item={item}
               cardInfo={cardInfo}
             />))

@@ -8,6 +8,7 @@ export type Direction = 'prev' | 'next' | 'none';
  * An item has the data of what can be shown when the carousel has been displayed. 
  * The count of items can be more than the maximum card count of carousel.
  * TODO: This type matches Restaurant object currently, but it should be changed to be general.
+ * @property {string} id
  * @property {string} blurhash Image representation
  * @property {string} launch_date The date when the restaurant was added to Wolt app (ISO 8601 date)
  * @property {number[]} location Restaurant's location as latitude and longitude coordinates. First element in the list is the longitude (a list containing two decimal elements)
@@ -16,6 +17,7 @@ export type Direction = 'prev' | 'next' | 'none';
  * @property {number} popularity the higher the number, the more popular the restaurant is in Wolt app (type: a float between 0 - 1, where 1 is the - most popular restaurant)
  */
 export type Item = {
+  id: string;
   blurhash: string;
   launch_date: string;
   location: number[];
@@ -60,18 +62,9 @@ export type CarouselRange = {
 export const ANIMATION_DURATION: number = 0.3;
 
 /**
- * EMPTY_ITEM is created when there is no previous or next item to move on when moving on previous or next item. 
- * With EMPTY_ITEM, the carousel repositions the cards container for the transition animation.
- * TODO: EMPTY_ITEM can be changed to copiedItem except the real image URL
+ * The empty card name for recognizing this card is empty card.
  */
-export const EMPTY_ITEM: Item = {
-  blurhash: "UAN=8k?LS~M:ErJFs%t0MDMWRqo@%BxSV{RX",
-  launch_date: "",
-  location: [],
-  name: "emptyCard",
-  online: false,
-  popularity: 0,
-};
+export const EMPTY_ITEM_NAME: string = "emptyCard";
 
 /**
  * Get 'translateX' value of transform CSS property. 
