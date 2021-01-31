@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, screen, fireEvent, cleanup, RenderResult, waitFor, act } from '@testing-library/react';
-import { Section } from './Discovery';
-import Carousel, { EMPTY_ITEM } from './Carousel';
-import { testDiscoveryData } from '../testData';
+import { render, screen, fireEvent, cleanup, RenderResult } from '@testing-library/react';
+import { Section } from '../components/Discovery';
+import Carousel from '../components/Carousel';
+import { EMPTY_ITEM } from '../CarouselUtil';
+import { testDiscoveryData } from './testData';
 
 //**************************************************************
 //TODO: Modify this test with CarouselRange
