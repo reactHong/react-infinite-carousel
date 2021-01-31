@@ -1,17 +1,14 @@
 body {
   margin: 0;
   padding: 0;
-  /* overflow: hidden; */
 }
 .discoveryWrapper {
-  max-width: 790px;
   margin: 0 auto;
   padding: 0 30px;
 }
 
 /* Header */
 .headerContainer {
-  /* background-color: yellow; */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -23,7 +20,6 @@ body {
 
 /* Carousel */
 .trackContainer {
-  /* background-color: red; */
   overflow: hidden;
 }
 .cardTrack {
@@ -31,9 +27,6 @@ body {
   flex-direction: row;
 }
 /* Card */
-.card {
-  /* background-color: yellowgreen; */
-}
 .card a {
   display: block;
 }
@@ -45,9 +38,6 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-}
-.card .top>.online {
-  /* background-color: bisque; */
 }
 .card .top>.online {
   display: flex;

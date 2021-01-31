@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Discovery from './components/Discovery';
-import { testDiscoveryData } from './unittest/testData';
-
-// type DiscoveryData = {
-//   sections: Section[];
-// };
 
 function App() {
   const [discoveryData, setDiscoveryData] = useState<object | null>(null);
@@ -22,7 +17,6 @@ function App() {
       });
   }, []);
 
-  console.log("-- [App.render]");
   return (
     <Discovery data={discoveryData} />
   );

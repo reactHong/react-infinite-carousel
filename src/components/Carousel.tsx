@@ -85,9 +85,7 @@ function Carousel({
       emptyItems.push(EMPTY_ITEM);
       renderItems.push(...emptyItems);
 
-      console.log("[prev] renderItems:", renderItems);
-
-      //NOTE: With new direction, transition would be none in a while for repositioning.
+      //NOTE: Transition would be none in a while for repositioning.
       const currentTranslateX = getElementTranslateX(cardTrack);
       newTranslateX = currentTranslateX - translateXUnit;
       newDirection = "none";
@@ -209,7 +207,6 @@ function Carousel({
     window.addEventListener("resize", handleResize);
     cardTrack!.addEventListener("transitionend", transitionEnd);
     return () => {
-      console.log("removeEventListener");
       cardTrack!.removeEventListener("transitionend", transitionEnd);
       window.removeEventListener("resize", handleResize);
     };
