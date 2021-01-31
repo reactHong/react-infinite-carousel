@@ -124,6 +124,7 @@ export const carouselChecker = (originItems: Item[], maxCarouselCardNum: number)
   };
 
   const getItems = () => items;
+  const getRange = () => range;
   const isPrevItemEmpty = () => ((range.first === 0) ? true : false);
   const isNextItemEmpty = () => ((range.last >= items.length - 1) ? true : false);
 
@@ -153,6 +154,7 @@ export const carouselChecker = (originItems: Item[], maxCarouselCardNum: number)
 
   return {
     getItems,
+    getRange,
     prev,
     next,
   }

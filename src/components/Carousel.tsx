@@ -174,12 +174,27 @@ function Carousel({
     };
 
     const handleResize = () => {
+      const state = stateRef.current;
+      const carouselChecker = checkerRef.current;
       const trackContainer = trackContainerRef.current;
       if (!trackContainer) return;
+      if (!carouselChecker) return;
 
       const carouselWidth: number = trackContainer!.clientWidth;
       const cardInfo = reloadCardInfo(carouselWidth, maxCarouselCardNum);
       setCardInfo(cardInfo);
+
+      const rangeFirst: number = carouselChecker.getRange().first;
+      if (rangeFirst !== 0) {
+        const translateXUnit = cardInfo.width + cardInfo.gap;
+        const newTranslateX = -(rangeFirst * translateXUnit);
+
+        setState({
+          ...state,
+          translateX: newTranslateX,
+          direction: "none",
+        });
+      }
     };
 
     const trackContainer = trackContainerRef.current;
