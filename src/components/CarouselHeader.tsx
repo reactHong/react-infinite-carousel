@@ -22,4 +22,9 @@ function CarouselHeader({ title, prev, next }: CarouselHeaderProps) {
   );
 }
 
-export default CarouselHeader;
+function areEqual(prevProps: CarouselHeaderProps, nextProps: CarouselHeaderProps) {
+  return prevProps.title === nextProps.title;
+}
+
+// export default CarouselHeader;
+export default React.memo(CarouselHeader, areEqual);

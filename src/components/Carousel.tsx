@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import CarouselHeader from './CarouselHeader';
 import CarouselTrack from './CarouselTrack';
 import { Item, CardInfo, Direction, carouselChecker, reloadCardInfo, getElementTranslateX, EMPTY_ITEM_NAME } from '../utils/CarouselUtil';
@@ -48,11 +48,18 @@ function Carousel({
     _setState(newState);
   };
 
-  const handlePrevClick = () => {
+  const handlePrevClick = useCallback(() => {
+    if (!cardInfoRef.current) return;
+    if (!stateRef.current) return;
+    if (!checkerRef.current) return;
+
+    const cardInfo = cardInfoRef.current;
+    const state = stateRef.current;
+    const checker = checkerRef.current;
+
     if (enableContinuousClick && state.direction === "next") return;
     if (!enableContinuousClick && state.direction !== "none") return;
 
-    const checker = checkerRef.current;
     const shouldReorder: boolean = checker.prev();
     const renderItems: Item[] = [...checker.getItems()];
 
@@ -105,13 +112,21 @@ function Carousel({
       translateX: newTranslateX,
       direction: newDirection,
     });
-  };
+  }, []);
 
-  const handleNextClick = () => {
+  const handleNextClick = useCallback(() => {
+    //TODO: How to apply Closure and Shadowing in this project???
+    if (!cardInfoRef.current) return;
+    if (!stateRef.current) return;
+    if (!checkerRef.current) return;
+
+    const cardInfo = cardInfoRef.current;
+    const state = stateRef.current;
+    const checker = checkerRef.current;
+
     if (enableContinuousClick && state.direction === "prev") return;
     if (!enableContinuousClick && state.direction !== "none") return;
 
-    const checker = checkerRef.current;
     const shouldReorder: boolean = checker.next();
     const translateXUnit: number = cardInfo.width + cardInfo.gap;
     const translateX: number = state.translateX - translateXUnit;
@@ -142,7 +157,7 @@ function Carousel({
       translateX: translateX,
       direction: "next",
     });
-  };
+  }, []);
 
   useEffect(() => {
     const transitionEnd = () => {
