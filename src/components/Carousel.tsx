@@ -112,7 +112,7 @@ function Carousel({
       translateX: newTranslateX,
       direction: newDirection,
     });
-  }, []);
+  }, [enableContinuousClick]);
 
   const handleNextClick = useCallback(() => {
     //TODO: How to apply Closure and Shadowing in this project???
@@ -157,7 +157,7 @@ function Carousel({
       translateX: translateX,
       direction: "next",
     });
-  }, []);
+  }, [enableContinuousClick]);
 
   useEffect(() => {
     const transitionEnd = () => {
